@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Update Berhasil! 🚀"
+    return "Update setelah terhubung github Berhasil! 🚀"
 
 if __name__ == "__main__":
     # Menjalankan aplikasi di host 0.0.0.0 agar bisa diakses dari luar container
