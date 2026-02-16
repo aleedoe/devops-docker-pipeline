@@ -1,11 +1,24 @@
-version: '3.8'  # Versi standar format compose
+version: '3.8'
 
 services:
-  web-aplikasiku:  # Nama layanan (bebas)
-    build: .       # Masak (Build) dari folder ini
-    ports:
-      - "8080:5000"  # Buka pintu (Host:Container)
+  # --- Service 1: Aplikasi Flask (Dapur) ---
+  web-aplikasiku:
+    build: 
+      context: .
+      dockerfile: Dockerfile # Pastikan pakai Dockerfile Multi-Stage yang tadi!
+    # ports:       <-- KITA HAPUS INI!
+    #   - "8080:5000"  Biar gak ada yang bisa akses langsung
     volumes:
-      - .:/app       # <--- INI KUNCINYA! (Bind Mount)
+      - .:/app
     environment:
-      - FLASK_DEBUG=1 # Agar Flask sadar kalau kita lagi mode development
+      - FLASK_DEBUG=1
+
+  # --- Service 2: Nginx (Satpam) ---
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"  # Pintu masuk utama sekarang di sini!
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro # Masukkan aturan satpam tadi
+    depends_on:
+      - web-aplikasiku # Nginx baru nyala kalau Dapur sudah siap
