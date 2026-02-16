@@ -1,0 +1,11 @@
+version: '3.8'  # Versi standar format compose
+
+services:
+  web-aplikasiku:  # Nama layanan (bebas)
+    build: .       # Masak (Build) dari folder ini
+    ports:
+      - "8080:5000"  # Buka pintu (Host:Container)
+    volumes:
+      - .:/app       # <--- INI KUNCINYA! (Bind Mount)
+    environment:
+      - FLASK_DEBUG=1 # Agar Flask sadar kalau kita lagi mode development
